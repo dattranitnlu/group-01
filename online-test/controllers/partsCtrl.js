@@ -1,6 +1,6 @@
 const express = require('express');
-const { Student } = require('./../models/db')
-const { ErrorResult, Result } = require('./../utils/base_response')
+const { Part } = require('../models/db')
+const { ErrorResult, Result } = require('../utils/base_response')
 const router = express.Router();
 router.use((req, res, next) => {
     // authorize here
@@ -8,13 +8,13 @@ router.use((req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    Student.findAll().then(type => {
+    Part.findAll().then(type => {
         res.json(Result(type))
     });
 });
 
 router.get('/:id', (req, res) => { //d+ là những con số, bắt buộc
-    Student.findByPk(req.params.id).then(type => {
+    Part.findByPk(req.params.id).then(type => {
         if (type != null) {
             res.json(Result(type));
         } else {
@@ -25,7 +25,7 @@ router.get('/:id', (req, res) => { //d+ là những con số, bắt buộc
 
 router.post('/', (req, res) => { //create 
     //validate data here
-    Student.create(req.body).then(type => {
+    Part.create(req.body).then(type => {
         res.json(Result(type));
     }).catch(err => {
         return res.status(400).send(ErrorResult(400, err.errors));
@@ -34,14 +34,11 @@ router.post('/', (req, res) => { //create
 
 router.put('/:id', (req, res) => { //updating
     //validate data here
-    Student.findByPk(req.params.id).then(type => {
+    Part.findByPk(req.params.id).then(type => {
         if (type != null) {
             type.update({
-                FullName: req.body.FullName,
-                CMND: req.body.CMND,
-                School: req.body.School,
-                Phone: req.body.Phone,
-                Code: req.body.Code
+                partname: req.body.partname,
+                subjectid: req.body.subjectid
 
             }).then(type => {
                 res.json(Result(type));
@@ -55,7 +52,7 @@ router.put('/:id', (req, res) => { //updating
 });
 
 router.delete('/:id', (req, res) => {
-    Student.destroy({
+    Part.destroy({
         where: {
             id: req.params.id
         }

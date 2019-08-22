@@ -6,24 +6,24 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true
         },
-        FullName: {
+        fullName: {
             type: type.STRING,
             allowNull: false
         },
-        CMND: {
+        cmnd: {
             type: type.STRING,
             allowNull: false
         },
-        School: {
+        school: {
             type: type.STRING,
             allowNull: false
 
         },
-        Phone: {
+        phone: {
             type: type.STRING,
             allowNull: false
         },
-        Code: {
+        code: {
             type: type.STRING,
             allowNull: false
         },
