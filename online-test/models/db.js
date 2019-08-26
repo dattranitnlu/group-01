@@ -78,9 +78,11 @@ Part.hasMany(Question, {foreignKey: 'partid', as: 'questions'});
 Part.belongsTo(Subject, {foreignKey: 'subjectid', as: 'subject'});
 Subject.hasMany(Part, {foreignKey: 'subjectid', as: 'parts'});
 
-sequelize.sync({ force: true }).then(() => { //run once
-    console.log('Database created !!!!!')
-});
+
+//only run this block code a time
+// sequelize.sync({ force: true }).then(() => { //run once
+//     console.log('Database created !!!!!')
+// });
 
 
 module.exports = {
