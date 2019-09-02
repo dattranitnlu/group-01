@@ -1,5 +1,7 @@
 const express = require('express');
-const { User } = require('../models/db')
+const jwt = require('jsonwebtoken');
+const helper = require('../utils/helper');
+const { User } = require('../models/db');
 const { ErrorResult, Result } = require('../utils/base_response')
 const router = express.Router();
 router.use((req, res, next) => {
@@ -25,12 +27,34 @@ router.get('/:id', (req, res) => { //d+ là những con số, bắt buộc
 
 router.post('/', (req, res) => { //create
     //validate data here
+    req.body.password = helper.hash(req.body.password);
     User.create(req.body).then(type => {
         res.json(Result(type));
     }).catch(err => {
         return res.status(400).send(ErrorResult(400, err.errors));
     });
 });
+
+router.post('/login', (req, res) => {
+    User.findAll({
+        where: {
+            username: req.body.username,
+            password: helper.hash(req.body.password)
+        }
+    }).then(users => {
+        if (users.length != 0) {
+            const token = jwt.sign({ userid: users[0].userid, username: users[0].username }, helper.appKey, { expiresIn: '1h' });
+            return res.json({
+                userid: users[0].userid,
+                username: users[0].username,
+                fullName: users[0].fullName,
+                token: token
+            });
+        } else {
+            return res.json(ErrorResult(401, 'Invalid username or password'));
+        }
+    })
+})
 
 router.put('/:id', (req, res) => { //updating
     //validate data here

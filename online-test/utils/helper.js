@@ -1,9 +1,12 @@
 const crypto = require('crypto');
+const appKey = 'I`m Dat';
+
 const createHash = (text) => {
-    return crypto.createHash('sha256')
-        .update(text, 'utf8').digest('base64');
+    return crypto.createHash('sha512')
+        .update(text, 'utf8').digest('hex');
 };
 
 module.exports = {
-    hash: createHash
+    hash: createHash,
+    appKey: appKey
 }

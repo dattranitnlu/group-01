@@ -1,0 +1,21 @@
+<div class="table table-responsive">
+    <table class="table table-hover table-bordered bg-light">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Commission</th>
+                <th style="width: 60px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of customerTypes">
+                <td>{{row.name}}</td>
+                <td>{{row.commission}}</td>
+                <td>
+                    <a [routerLink]="['/customer-type', row.id]"><i class="fa fa-edit"></i></a>
+                    <a href=""><i class="fa fa-remove"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

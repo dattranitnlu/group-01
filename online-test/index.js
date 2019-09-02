@@ -1,12 +1,20 @@
 const express = require('express');
-var bodyParser = require('body-parser')
-var app = express();
+const bodyParser = require('body-parser');
+const { ErrorResult } = require('./utils/base_response');
+const app = express();
 
-app.use(function(req, res, next) {
+const auth = require('./middleware/auth');
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
-    next();
+
+    if (req.url == '/user/login') {
+        next();
+    } else {
+        auth(req, res, next);
+    }
+
 });
 
 app.use('/img', express.static(__dirname + '/img'));

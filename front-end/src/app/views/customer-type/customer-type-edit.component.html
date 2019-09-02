@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-header">
+        <h5></h5>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group">
+              <label for="txtName">Name:</label>
+              <input type="text" class="form-control" name="txtName" [(value)]="customerType.name">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="txtCommission">Commission:</label>
+              <input type="text" class="form-control" [(value)]="customerType.commission">
+            </div>
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button type="button" (click)="save()" class="btn btn-primary">Submit</button>
+          </form>
+    </div>
+</div>
