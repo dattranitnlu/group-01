@@ -35,11 +35,11 @@ export class ApiService {
     return this.http.get<T>(url);
   }
 
-  put<T>(url: string, attribute: T): Observable<T> {
+  put<T>(url: string, attribute: T): Observable<RootObject<T>> {
     const httpOption = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
-    return this.http.put<T>(url, attribute, httpOption);
+    return this.http.put<RootObject<T>>(url, attribute, httpOption);
   }
 
   post<T>(url: string, attribute: T): Observable<RootObject<T>> {

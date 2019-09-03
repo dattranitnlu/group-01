@@ -4,6 +4,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UsersManagement } from '../../../models/users-management';
 import { UsersManagementService } from '../../../services/users-management.service';
 import { PnotifyService } from '../../../utils/pnotify.service';
+import { UsersManagementComponent } from '../users-management.component';
 
 @Component({
   selector: 'app-user-adding-modal',
@@ -17,7 +18,8 @@ export class UserAddingModalComponent implements OnInit {
     private router: Router,
     private usersManagementService: UsersManagementService,
     private modalService: NgbModal,
-    private pnotifyService: PnotifyService
+    private pnotifyService: PnotifyService,
+    private usersManagementComponent : UsersManagementComponent
   ) { }
 
   ngOnInit() {
@@ -44,6 +46,7 @@ export class UserAddingModalComponent implements OnInit {
   addUser() {
     this.usersManagementService.post(this.aUser).subscribe(res => {
       if (res.errorCode === 0) {
+        this.usersManagementComponent.reloadData();
         this.router.navigate(['users-management']);
         console.log(res.errorCode);
         this.pnotifyService.success('Added successfuly', '');

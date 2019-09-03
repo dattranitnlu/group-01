@@ -7,10 +7,6 @@ import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
-import { CustomerTypeComponent } from './views/customer-type/customer-type.component';
-import { CustomersComponent } from './views/customers/customers.component';
-import { CustomerTypeEditComponent } from './views/customer-type/customer-type-edit.component';
-import { CustomerEditComponent } from './views/customers/customer-edit.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { UsersManagementComponent } from './views/users-management/users-management.component';
 
@@ -51,22 +47,6 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent
-      },
-      {
-        path: 'customer-type/:id',
-        component: CustomerTypeEditComponent
-      },
-      {
-        path: 'customer-type',
-        component: CustomerTypeComponent
-      },
-      {
-        path: 'customers/:id',
-        component: CustomerEditComponent
-      },
-      {
-        path: 'customers',
-        component: CustomersComponent
       },
       {
         path: 'users-management',

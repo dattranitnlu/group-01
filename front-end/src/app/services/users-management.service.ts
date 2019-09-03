@@ -22,7 +22,7 @@ export class UsersManagementService {
     return this.apiService.post<UsersManagement>(this.apiService.apiUrl.user, user);
   }
 
-  put(id: number, user: UsersManagement):Observable<UsersManagement> {
+  put(id: number, user: UsersManagement):Observable<RootObject<UsersManagement>> {
     return this.apiService.put<UsersManagement>(`${this.apiService.apiUrl.user}/${id}`, user);
   }
 

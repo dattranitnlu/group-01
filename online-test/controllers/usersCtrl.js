@@ -11,7 +11,7 @@ router.use((req, res, next) => {
 
 router.get('/', (req, res) => {
     User.findAll().then(type => {
-        res.json(Result(type))
+        return res.json(Result(type))
     });
 });
 

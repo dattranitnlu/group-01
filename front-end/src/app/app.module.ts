@@ -43,10 +43,6 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { DataTablesModule } from 'angular-datatables';
 
-import { CustomerTypeComponent} from './views/customer-type/customer-type.component';
-import { CustomersComponent } from './views/customers/customers.component';
-import { CustomerTypeEditComponent } from './views/customer-type/customer-type-edit.component';
-import { CustomerEditComponent } from './views/customers/customer-edit.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { UsersManagementComponent } from './views/users-management/users-management.component';
 import { UserAddingModalComponent } from './views/users-management/user-adding-modal/user-adding-modal.component';
@@ -78,10 +74,6 @@ import { UserEditingModalComponent } from './views/users-management/user-editing
     P500Component,
     LoginComponent,
     RegisterComponent,
-    CustomerTypeComponent,
-    CustomersComponent,
-    CustomerTypeEditComponent,
-    CustomerEditComponent,
     DashboardComponent,
     UsersManagementComponent,
     UserAddingModalComponent,

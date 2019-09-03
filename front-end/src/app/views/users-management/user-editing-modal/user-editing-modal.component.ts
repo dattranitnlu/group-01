@@ -1,8 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UsersManagementService } from '../../../services/users-management.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UsersManagement } from '../../../models/users-management';
+import { PnotifyService } from '../../../utils/pnotify.service';
+import { UsersManagementComponent } from '../users-management.component';
 
 @Component({
   selector: 'app-user-editing-modal',
@@ -15,12 +17,13 @@ export class UserEditingModalComponent implements OnInit {
 
   constructor(
     private usersManagementService: UsersManagementService,
-    private route: ActivatedRoute,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private pnotifyService: PnotifyService,
+    private usersManagementComponent: UsersManagementComponent
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
@@ -42,9 +45,21 @@ export class UserEditingModalComponent implements OnInit {
   }
 
   updateUser() {
-    this.usersManagementService.put(this.row.id, this.row).subscribe(res =>{
-      console.log(res);
-      this.router.navigate(['users-management']);
+    this.usersManagementService.put(this.row.id, this.row).subscribe(res => {
+      // console.log(res);
+      // this.router.navigate(['users-management']);
+      // this.router.su
+      if (res.errorCode === 0) {
+        this.usersManagementComponent.reloadData();
+        this.router.navigate(['users-management']);
+        console.log(res.errorCode);
+        this.pnotifyService.success('Edit successfuly', '');
+      } else {
+        this.pnotifyService.error('Edit Failed', '');
+      }
+    }, err => {
+      this.pnotifyService.error('Some entered fields is wrong!', 'Please check field inputs once again');
+      console.log(err.errorCode);
     })
   }
 
