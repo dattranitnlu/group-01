@@ -9,6 +9,14 @@ module.exports = (sequelize, type) => {
         subjectname: {
             type: type.STRING,
             allowNull: false
+        },
+        levels: {
+            type: type.INTEGER,
+            allowNull: false
+        },
+        parentSub:{
+            type: type.INTEGER,
+            allowNull: true
         }
     }, { timestamps: false })
 }

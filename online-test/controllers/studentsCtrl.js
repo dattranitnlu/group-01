@@ -1,6 +1,7 @@
 const express = require('express');
 const { Student } = require('../models/db')
 const { ErrorResult, Result } = require('../utils/base_response')
+const crypt = require('../utils/helper')
 const router = express.Router();
 router.use((req, res, next) => {
     // authorize here
@@ -25,6 +26,7 @@ router.get('/:id', (req, res) => { //d+ là những con số, bắt buộc
 
 router.post('/', (req, res) => { //create 
     //validate data here
+    crypt.hash(req.body.Password)
     Student.create(req.body).then(type => {
         res.json(Result(type));
     }).catch(err => {
@@ -41,7 +43,9 @@ router.put('/:id', (req, res) => { //updating
                 CMND: req.body.CMND,
                 School: req.body.School,
                 Phone: req.body.Phone,
-                Code: req.body.Code
+                Code: req.body.Code,
+                Username: req.body.Username,
+                Password: crypt.hash(req.body.Password)
 
             }).then(type => {
                 res.json(Result(type));

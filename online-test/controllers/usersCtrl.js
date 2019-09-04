@@ -1,8 +1,7 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const helper = require('../utils/helper');
-const { User } = require('../models/db');
+const { User } = require('../models/db')
 const { ErrorResult, Result } = require('../utils/base_response')
+const crypt = require('../utils/helper')
 const router = express.Router();
 router.use((req, res, next) => {
     // authorize here
@@ -11,7 +10,7 @@ router.use((req, res, next) => {
 
 router.get('/', (req, res) => {
     User.findAll().then(type => {
-        return res.json(Result(type))
+        res.json(Result(type))
     });
 });
 
@@ -25,36 +24,15 @@ router.get('/:id', (req, res) => { //d+ là những con số, bắt buộc
     });
 });
 
-router.post('/', (req, res) => { //create
+router.post('/', (req, res) => { //create 
     //validate data here
-    req.body.password = helper.hash(req.body.password);
+    req.body.password = crypt.hash(req.body.password)
     User.create(req.body).then(type => {
         res.json(Result(type));
     }).catch(err => {
         return res.status(400).send(ErrorResult(400, err.errors));
     });
 });
-
-router.post('/login', (req, res) => {
-    User.findAll({
-        where: {
-            username: req.body.username,
-            password: helper.hash(req.body.password)
-        }
-    }).then(users => {
-        if (users.length != 0) {
-            const token = jwt.sign({ userid: users[0].userid, username: users[0].username }, helper.appKey, { expiresIn: '1h' });
-            return res.json({
-                userid: users[0].userid,
-                username: users[0].username,
-                fullName: users[0].fullName,
-                token: token
-            });
-        } else {
-            return res.json(ErrorResult(401, 'Invalid username or password'));
-        }
-    })
-})
 
 router.put('/:id', (req, res) => { //updating
     //validate data here
@@ -67,7 +45,9 @@ router.put('/:id', (req, res) => { //updating
                 sex: req.body.sex,
                 address: req.body.address,
                 usertypeid: req.body.usertypeid,
-                status: req.body.status
+                username: req.body.username,
+                password: crypt.hash(req.body.password)
+                
 
             }).then(type => {
                 res.json(Result(type));
@@ -75,7 +55,7 @@ router.put('/:id', (req, res) => { //updating
                 return res.status(400).send(ErrorResult(400, err.errors));
             });
         } else {
-            res.status(404).send(ErrorResult(404, 'Not Found!!'));
+            return res.status(404).send(ErrorResult(404, err.errors));
         }
     });
 });
@@ -91,4 +71,29 @@ router.delete('/:id', (req, res) => {
         return res.status(500).send(ErrorResult(500, err.errors));
     });
 });
+
+router.post('/login', (req,res)=>{
+    User.findOne({
+        where: {
+            username : req.body.username,
+            password : crypt.hash(req.body.password)
+        }
+    }).then(aUser=> {
+        if(aUser!=null)
+        {
+            res.json(Result(aUser));
+            /*res.json({
+                id: aUser.id,
+                fullName: aUser.fullName,
+                identitycard: aUser.identitycard,
+                birthday: aUser.birthday,
+                sex: aUser.sex,
+                address: aUser.address,
+                usertypeid: aUser.usertypeid,
+                username: aUser.username,
+                password: aUser.password
+            })*/
+        }
+    })
+})
 module.exports = router;
