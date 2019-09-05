@@ -47,6 +47,13 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { UsersManagementComponent } from './views/users-management/users-management.component';
 import { UserAddingModalComponent } from './views/users-management/user-adding-modal/user-adding-modal.component';
 import { UserEditingModalComponent } from './views/users-management/user-editing-modal/user-editing-modal.component';
+import { QuestionsManagementComponent } from './views/questions-management/questions-management.component';
+import { ClassesManagementComponent } from './views/classes-management/classes-management.component';
+import { ClassAddingModalComponent } from './views/classes-management/class-adding-modal/class-adding-modal.component';
+import { ClassEditingModalComponent } from './views/classes-management/class-editing-modal/class-editing-modal.component';
+import { PupilsManagementComponent } from './views/pupils-management/pupils-management.component';
+import { PupilAddingModalComponent } from './views/pupils-management/pupil-adding-modal/pupil-adding-modal.component';
+import { PupilEditingModalComponent } from './views/pupils-management/pupil-editing-modal/pupil-editing-modal.component';
 
 @NgModule({
   imports: [
@@ -77,7 +84,14 @@ import { UserEditingModalComponent } from './views/users-management/user-editing
     DashboardComponent,
     UsersManagementComponent,
     UserAddingModalComponent,
-    UserEditingModalComponent
+    UserEditingModalComponent,
+    QuestionsManagementComponent,
+    ClassesManagementComponent,
+    ClassAddingModalComponent,
+    ClassEditingModalComponent,
+    PupilsManagementComponent,
+    PupilAddingModalComponent,
+    PupilEditingModalComponent
   ],
   providers: [],
   bootstrap: [ AppComponent ]

@@ -35,19 +35,19 @@ export const navItems: NavData[] = [
     url: '/dashboard',
     icon: 'icon-speedometer'
   },
-  // {
-  //   name: 'Customer Types',
-  //   url: '/customer-type',
-  //   icon: 'icon-speedometer'
-  // },
-  // {
-  //   name: 'Customers',
-  //   url: '/customers',
-  //   icon: 'icon-people'
-  // },
   {
     name: 'Users management',
     url: '/users-management',
     icon: 'icon-user'
+  },
+  {
+    name: 'Classes management',
+    url: '/classes-management',
+    icon: 'icon-user'
+  },
+  {
+    name: 'Pupils management',
+    url:'/pupils-management',
+    icon: 'icon-emotsmile'
   }
 ];

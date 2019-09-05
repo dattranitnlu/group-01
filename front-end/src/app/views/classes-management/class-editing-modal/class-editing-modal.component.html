@@ -1,0 +1,33 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Class update</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form #formEditClass="ngForm" novalidate>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="classname">Class name:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Enter class name"
+                        [(ngModel)]="row.classname" name="classname" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lecturer">Lecturer:</label>
+                <select class="form-control" id="userid" [(ngModel)]="row.userid" name="userid">
+                    <option *ngFor="let lecturer of lecturers"
+                    [value]="row.userid == lecturer.userid ? 0 : lecturer.id">
+                        {{lecturer.fullName}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark" (click)="modal.close('Save click')"
+                (click)="updateClass()">Save</button>
+        </div>
+    </form>
+</ng-template>
+<button type="button" class="btn btn-primary" (click)="open(content)"><i class="fa fa-edit fa-lg"></i></button>

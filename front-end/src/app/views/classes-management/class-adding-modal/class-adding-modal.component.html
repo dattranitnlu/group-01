@@ -1,0 +1,33 @@
+<ng-template #adding let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Adding a class</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form #formAddClass="ngForm">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="classname">Class name:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Enter class name"
+                        [(ngModel)]="aClass.classname" name="classname" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lecturer">Lecturer:</label>
+                <select class="form-control" id="userid" [(ngModel)]="aClass.userid" name="userid">
+                    <option *ngFor="let lecturer of lecturers" [value]="aClass.userid == lecturer.userid ? lecturer.id : null">
+                        {{lecturer.fullName}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark" (click)="modal.close('Save click')"
+                (click)="addClass()">Save</button>
+        </div>
+    </form>
+</ng-template>
+
+<button class="btn btn-primary" (click)="open(adding)">Add class</button>

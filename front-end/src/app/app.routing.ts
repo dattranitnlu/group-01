@@ -9,6 +9,8 @@ import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { UsersManagementComponent } from './views/users-management/users-management.component';
+import { ClassesManagementComponent } from './views/classes-management/classes-management.component';
+import { PupilsManagementComponent } from './views/pupils-management/pupils-management.component';
 
 export const routes: Routes = [
   {
@@ -49,14 +51,21 @@ export const routes: Routes = [
         component: DashboardComponent
       },
       {
+        path: 'dashboard',
+        loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
+      },
+      {
         path: 'users-management',
         component: UsersManagementComponent
       },
       {
-        path: 'dashboard',
-        loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
+        path: 'classes-management',
+        component: ClassesManagementComponent
       },
-
+      {
+        path: 'pupils-management',
+        component: PupilsManagementComponent
+      },
     ]
   },
   { path: '**', component: P404Component }
