@@ -23,7 +23,7 @@ router.get('/:id', (req, res) => { //d+ là những con số, bắt buộc
     });
 });
 
-router.post('/', (req, res) => { //create 
+router.post('/', (req, res) => { //create
     //validate data here
     Class.create(req.body).then(type => {
         res.json(Result(type));

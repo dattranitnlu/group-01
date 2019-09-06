@@ -14,7 +14,7 @@ const OptionModel = require('./options');
 const PartModel = require('./parts');
 const SubjectModel = require('./subjects');
 
-const sequelize = new Sequelize('OnlineTestDB', 'quang', '35025221', { // sử dụng cho bản exp, bản full không cần
+const sequelize = new Sequelize('OnlineTest', 'sa', '1234', { // sử dụng cho bản exp, bản full không cần
     dialect: 'mssql',
     host: 'localhost',
     dialectOptions: {
@@ -80,9 +80,9 @@ Part.hasMany(Question, {foreignKey: 'partid', as: 'questions'});
 Part.belongsTo(Subject, {foreignKey: 'subjectid', as: 'subject'});
 Subject.hasMany(Part, {foreignKey: 'subjectid', as: 'parts'});
 
-/*sequelize.sync({ force: false }).then(() => { //run once
-    console.log('Database created !!!!!')
-});*/
+// sequelize.sync({ force: false }).then(() => { //run once
+//     console.log('Database created !!!!!')
+// });
 
 
 module.exports = {

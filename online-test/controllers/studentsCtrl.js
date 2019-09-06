@@ -24,9 +24,9 @@ router.get('/:id', (req, res) => { //d+ là những con số, bắt buộc
     });
 });
 
-router.post('/', (req, res) => { //create 
+router.post('/', (req, res) => { //create
     //validate data here
-    crypt.hash(req.body.Password)
+    req.body.password = crypt.hash(req.body.password);
     Student.create(req.body).then(type => {
         res.json(Result(type));
     }).catch(err => {
@@ -39,13 +39,13 @@ router.put('/:id', (req, res) => { //updating
     Student.findByPk(req.params.id).then(type => {
         if (type != null) {
             type.update({
-                FullName: req.body.FullName,
-                CMND: req.body.CMND,
-                School: req.body.School,
-                Phone: req.body.Phone,
-                Code: req.body.Code,
-                Username: req.body.Username,
-                Password: crypt.hash(req.body.Password)
+                FullName: req.body.fullName,
+                CMND: req.body.cmnd,
+                School: req.body.school,
+                Phone: req.body.phone,
+                Code: req.body.code,
+                Username: req.body.username,
+                Password: crypt.hash(req.body.password)
 
             }).then(type => {
                 res.json(Result(type));
