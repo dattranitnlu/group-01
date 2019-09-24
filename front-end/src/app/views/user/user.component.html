@@ -1,0 +1,115 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        <span> Usertype</span>
+        <select [(ngModel)]="userTypeId" name="userTypeId" (change)="loadUsers()">
+          <option value="0">------All</option>
+          <option *ngFor="let item of userTypes" value="{{item.id}}">{{item.userrole}}</option>
+        </select>
+      </div>
+      <div class="col">
+        <h3> List of users <button class="btn btn-lg btn-primary" (click)="openAdd(contentAdd)" style="float: right;"><i
+              class="fa fa-plus"></i></button></h3>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <ngx-datatable class="material striped border" [rows]="users" [columns]="columns" [columnMode]="'force'"
+      [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [count]="page.totalRows"
+      [offset]="page.pageNumber" [limit]="page.pageSize" (page)="loadUsers($event)">
+      <ngx-datatable-column name="Username">
+        <ng-template ngx-datatable-header-template>Username</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="FullName"></ngx-datatable-column>
+      <ngx-datatable-column name="Usertype">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.usertype.userrole}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="40" name="Option">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <button type="button" (click)="openEdit(row.id)" class="btn btn-primary pointer"><i
+              class="fa fa-edit fa-lg"></i></button>
+          <button type="button" class="btn btn-danger pointer" (click)="delete(row.id)"><i
+              class="fa fa-trash-o fa-lg"></i></button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">{{action}} User</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form" novalidate>
+          <app-form-input ngDefaultControl [label]="'Username'" [id]="'username'"
+            [formControl]="form.controls['username']" [(ngModel)]="user.username" [placeholder]="'User Name'"
+            [requiredValidation]="true"
+            [customValidation]="form.controls['username'].errors?.minlength || form.controls['username'].errors?.maxlength"
+            [customValidationMessage]="'Username from 2 to 100 characters.'"></app-form-input>
+          <app-form-input ngDefaultControl [label]="'Fullname'" [id]="'fullName'"
+            [formControl]="form.controls['fullName']" [(ngModel)]="user.fullName" [placeholder]="'Full name'"
+            [requiredValidation]="true"
+            [customValidation]="form.controls['fullName'].errors?.minlength || form.controls['fullName'].errors?.maxlength"
+            [customValidationMessage]="'FullName from 2 to 100 characters.'"></app-form-input>
+          <app-form-input ngDefaultControl [label]="'Identity card'" [id]="'identitycard'"
+            [formControl]="form.controls['identitycard']" [(ngModel)]="user.identitycard"
+            [placeholder]="'Identity card'" [requiredValidation]="true"
+            [customValidation]="form.controls['identitycard'].errors?.minlength || form.controls['identitycard'].errors?.maxlength"
+            [customValidationMessage]="'Identity card from 2 to 100 characters.'"></app-form-input>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label col-form-label-sm">Birthday</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control col-lg-10" [minDate]="minDate" [maxDate]="maxDate"
+                #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="user.birthday" formControlName="birthday"
+                bsDatepicker>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label col-form-label-sm">Sex</label>
+            <div class="col-sm-10">
+              <select class="form-control col-lg-10" [(ngModel)]="user.sex" formControlName="sex">
+                <option value="true">Male</option>
+                <option value="false" [selected]="true">Female</option>
+              </select>
+            </div>
+          </div>
+          <app-form-input ngDefaultControl [label]="'Address'" [id]="'address'"
+            [formControl]="form.controls['address']" [(ngModel)]="user.address"
+            [placeholder]="'Address'" [requiredValidation]="true"
+            [customValidation]="form.controls['address'].errors?.minlength || form.controls['address'].errors?.maxlength"
+            [customValidationMessage]="'Address from 2 to 100 characters.'"></app-form-input>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label col-form-label-sm">Status</label>
+            <div class="col-sm-10">
+              <select class="form-control col-lg-10" [(ngModel)]="user.status" formControlName="status">
+                <option value="true" [selected]="true">Enable</option>
+                <option value="false">Disable</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label col-form-label-sm">Userrole</label>
+            <div class="col-sm-10">
+              <select class="form-control col-lg-10" [(ngModel)]="user.usertypeid" formControlName="usertypeid">
+                <option value="1">Admin</option>
+                <option value="2" [selected]="true">Lecturer</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="save()">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

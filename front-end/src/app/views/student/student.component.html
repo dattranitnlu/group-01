@@ -1,0 +1,92 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <!-- <div class="col">
+          <span> Usertype</span>
+          <select [(ngModel)]="userTypeId" name="userTypeId" (change)="loadUsers()">
+            <option value="0">------All</option>
+            <option *ngFor="let item of userTypes" value="{{item.id}}">{{item.userrole}}</option>
+          </select>
+        </div> -->
+            <div class="col">
+                <h3> List of Students <button class="btn btn-lg btn-primary" (click)="openAdd(contentAdd)"
+                        style="float: right;"><i class="fa fa-plus"></i></button></h3>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <ngx-datatable class="material striped border" [rows]="students" [columns]="columns" [columnMode]="'force'"
+            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [count]="page.totalRows"
+            [offset]="page.pageNumber" [limit]="page.pageSize" (page)="loadStudents($event)">
+            <ngx-datatable-column name="Username">
+                <ng-template ngx-datatable-header-template>Username</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="FullName"></ngx-datatable-column>
+            <ngx-datatable-column [width]="40" name="Option">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <button type="button" (click)="openEdit(row.id)" class="btn btn-primary pointer"><i
+                            class="fa fa-edit fa-lg"></i></button>
+                    <button type="button" class="btn btn-danger pointer" (click)="delete(row.id)"><i
+                            class="fa fa-trash-o fa-lg"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>
+
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-child-name" class="modal-title pull-left">{{action}} Student</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form" novalidate>
+                    <app-form-input ngDefaultControl [label]="'Username'" [id]="'username'" [readonly]="readonly"
+                        [formControl]="form.controls['username']" [(ngModel)]="student.username"
+                        [placeholder]="'Username'" [requiredValidation]="true"
+                        [customValidation]="form.controls['username'].errors?.minlength || form.controls['username'].errors?.maxlength"
+                        [customValidationMessage]="'Username from 2 to 100 characters.'"></app-form-input>
+                    <app-form-input *ngIf="!readonly" ngDefaultControl [label]="'Password'" [id]="'password'"
+                        [formControl]="form.controls['password']" [type]="password" [(ngModel)]="student.password"
+                        [placeholder]="'Password'" [requiredValidation]="true"
+                        [customValidation]="form.controls['password'].errors?.minlength || form.controls['password'].errors?.maxlength"
+                        [customValidationMessage]="'Password from 2 to 100 characters.'"></app-form-input>
+                    <app-form-input ngDefaultControl [label]="'FullName'" [id]="'fullName'"
+                        [formControl]="form.controls['fullName']" [(ngModel)]="student.fullName"
+                        [placeholder]="'FullName'" [requiredValidation]="true"
+                        [customValidation]="form.controls['fullName'].errors?.minlength || form.controls['fullName'].errors?.maxlength"
+                        [customValidationMessage]="'FullName from 2 to 100 characters.'"></app-form-input>
+                    <app-form-input ngDefaultControl [label]="'Identitycard'" [id]="'cmnd'"
+                        [formControl]="form.controls['cmnd']" [(ngModel)]="student.cmnd" [placeholder]="'Identitycard'"
+                        [requiredValidation]="true"
+                        [customValidation]="form.controls['cmnd'].errors?.minlength || form.controls['cmnd'].errors?.maxlength"
+                        [customValidationMessage]="'Identitycard from 2 to 100 characters.'"></app-form-input>
+                    <app-form-input ngDefaultControl [label]="'School'" [id]="'school'"
+                        [formControl]="form.controls['school']" [(ngModel)]="student.school" [placeholder]="'School'"
+                        [requiredValidation]="true"
+                        [customValidation]="form.controls['school'].errors?.minlength || form.controls['school'].errors?.maxlength"
+                        [customValidationMessage]="'School from 2 to 100 characters.'"></app-form-input>
+                    <app-form-input ngDefaultControl [label]="'Phone'" [id]="'phone'"
+                        [formControl]="form.controls['phone']" [(ngModel)]="student.phone" [placeholder]="'Phone'"
+                        [requiredValidation]="true"
+                        [customValidation]="form.controls['phone'].errors?.minlength || form.controls['phone'].errors?.maxlength"
+                        [customValidationMessage]="'Phone from 2 to 100 characters.'"></app-form-input>
+                    <app-form-input ngDefaultControl [label]="'Code'" [id]="'Code'"
+                        [formControl]="form.controls['code']" [(ngModel)]="student.code" [placeholder]="'Code'"
+                        [requiredValidation]="true"
+                        [customValidation]="form.controls['code'].errors?.minlength || form.controls['code'].errors?.maxlength"
+                        [customValidationMessage]="'Code from 2 to 100 characters.'"></app-form-input>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark"
+                            (click)="save()">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

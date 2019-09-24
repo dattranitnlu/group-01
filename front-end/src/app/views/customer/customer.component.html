@@ -1,0 +1,106 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        <span> Customer Type</span>
+        <select [(ngModel)]="customerTypeId" (change)="loadCustomer()">
+          <option value="0">--- All</option>
+          <option *ngFor="let aCUT of customerTypes" value="{{aCUT.id}}">{{aCUT.name}}</option>
+        </select>
+        <div class="col">
+      </div>
+        <h3> Customer <button class="btn btn-lg btn-primary" (click)="openAdd(contentAdd)" style="float: right;"><i
+              class="fa fa-plus"></i></button></h3>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <ngx-datatable class="bootstrap" [rows]="customers" [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
+      [footerHeight]="50" [summaryRow]="true" rowHeight="auto" [externalPaging]="true" [count]="page.totalRows"
+      [offset]="page.pageNumber" [limit]="page.pageSize" (page)="loadCustomer($event)">
+      <ngx-datatable-column name="Name">
+        <ng-template ngx-datatable-header-template>Customer name</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Phone"></ngx-datatable-column>
+      <ngx-datatable-column name="Email"></ngx-datatable-column>
+      <ngx-datatable-column name="Address"></ngx-datatable-column>
+      <ngx-datatable-column [width]="40">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <i (click)="openEdit(row.id)" class="fa fa-edit text-primary mr-1 pointer"></i>
+          <i (click)="delete(row.id)" class="fa fa-trash-o text-danger pointer"></i>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </div>
+  <div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 id="dialog-child-name" class="modal-title pull-left">{{action}} Customer</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="form" novalidate>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label col-form-label-sm">Type</label>
+              <div class="col-sm-10">
+                <select [(ngModel)]="customer.CUT_ID" [ngClass]="{'is-invalid': form.controls['CUT_ID'].touched && form.controls['CUT_ID'].errors}" formControlName="CUT_ID" class="form-control col-lg-10 is-invalid">
+                  <option *ngFor="let aCUT of customerTypes" value="{{aCUT.id}}">{{aCUT.name}}</option>
+                </select>
+                <div *ngIf="form.controls['CUT_ID'].touched && form.controls['CUT_ID'].hasError('required')" class="invalid-feedback">
+                    Customer type is invalid
+                  </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label col-form-label-sm">Name</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control col-lg-10" id="txtName" [ngClass]="{'is-invalid': form.controls['name'].touched && form.controls['name'].errors, 'is-valid': form.controls['name'].touched && !form.controls['name'].errors}" formControlName="name" [(ngModel)]="customer.name"
+                  placeholder="name">
+                  <div *ngIf="form.controls['name'].touched && (form.controls['name'].hasError('minlength') || form.controls['name'].hasError('maxlength'))" class="invalid-feedback">
+                      Customer name is invalid
+                    </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label col-form-label-sm">Email</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control col-lg-10" [ngClass]="{'is-invalid': form.controls['email'].touched && form.controls['email'].errors}" (keydown.enter)="save()" id="txtEmail" formControlName="email"
+                  [(ngModel)]="customer.email" placeholder="email">
+                  <div *ngIf="form.controls['email'].touched && form.controls['email'].hasError('email')" class="invalid-feedback">
+                      Customer email is invalid
+                    </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label col-form-label-sm">Phone</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control col-lg-10" [ngClass]="{'is-invalid': form.controls['phone'].touched && form.controls['phone'].errors}" id="txtPhone" formControlName="phone"
+                  [(ngModel)]="customer.phone" placeholder="phone">
+                  <div *ngIf="form.controls['phone'].touched && form.controls['phone'].hasError('required')" class="invalid-feedback">
+                      Customer phone is invalid
+                    </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label col-form-label-sm">Address</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control col-lg-10" [ngClass]="{'is-invalid': form.controls['address'].touched && form.controls['address'].errors}" (keydown.enter)="save()" id="txtAddress"
+                formControlName="address" [(ngModel)]="customer.address" placeholder="address">
+                <div *ngIf="form.controls['address'].touched && form.controls['address'].hasError('required')" class="invalid-feedback">
+                    Customer address is invalid
+                  </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" [disabled]="!form.valid" class="btn btn-outline-dark" (click)="save()">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

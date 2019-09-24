@@ -1,0 +1,84 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <span> Owners filter</span>
+                <select [(ngModel)]="userid" name="userid" (change)="loadClasses()">
+                    <option value="0">------All</option>
+                    <option *ngFor="let item of users" value="{{item.id}}">{{item.fullName}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <h3> List of classes <button class="btn btn-lg btn-primary" (click)="openAdd(contentAdd)"
+                        style="float: right;"><i class="fa fa-plus"></i></button></h3>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <ngx-datatable class="material striped border" [rows]="classes" [columns]="columns" [columnMode]="'force'"
+            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [count]="page.totalRows"
+            [offset]="page.pageNumber" [limit]="page.pageSize" (page)="loadClasses($event)">
+            <ngx-datatable-column name="ID">
+                <ng-template ngx-datatable-header-template>ID</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Classname"></ngx-datatable-column>
+            <ngx-datatable-column name="Lecturer">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.user.fullName}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [width]="40" name="Option">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <button type="button" (click)="openEdit(row.id)" class="btn btn-primary pointer"><i
+                            class="fa fa-edit fa-lg"></i></button>
+                    <button type="button" class="btn btn-danger pointer" (click)="delete(row.id)"><i
+                            class="fa fa-trash-o fa-lg"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+    <div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+        aria-labelledby="dialog-child-name">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="dialog-child-name" class="modal-title pull-left">{{action}} Class name</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="form" novalidate>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label col-form-label-sm">Class name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control col-lg-10" (keydown.enter)="save()"
+                                    id="classname" formControlName="classname" [(ngModel)]="class.classname"
+                                    placeholder="classname">
+                                <!-- <div *ngIf="form.controls['classname'].touched && form.controls['classname'].hasError('required')"
+                        class="invalid-feedback">
+                        Class name is invalid
+                      </div> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label col-form-label-sm">Owner</label>
+                            <div class="col-sm-10">
+                                <select class="form-control col-lg-10" id="userid" [(ngModel)]="class.userid" formControlName="userid">
+                                    <option *ngFor="let lecturer of users"
+                                    [value]="class.userid == lecturer.id ? 0 : lecturer.id">
+                                        {{lecturer.fullName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" [disabled]="!form.valid" class="btn btn-outline-dark"
+                                (click)="save()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

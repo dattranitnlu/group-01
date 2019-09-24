@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        <h3> User type <button class="btn btn-lg btn-primary" (click)="openAdd(contentAdd)" style="float: right;"><i
+              class="fa fa-plus"></i></button></h3>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <ngx-datatable class="material" [rows]="userTypes" [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
+      [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [count]="page.totalRows" [offset]="page.pageNumber"
+      [limit]="page.pageSize" (page)="loadUserTypes($event)">
+      <ngx-datatable-column name="Id">
+        <ng-template ngx-datatable-header-template>ID</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Userrole"></ngx-datatable-column>
+      <ngx-datatable-column [width]="40" name="Option">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <button type="button" (click)="openEdit(row.id)" class="btn btn-primary pointer"><i
+              class="fa fa-edit fa-lg"></i></button>
+          <button type="button" class="btn btn-danger pointer" (click)="delete(row.id)"><i
+              class="fa fa-trash-o fa-lg"></i></button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+  <div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 id="dialog-child-name" class="modal-title pull-left">{{action}} User type</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="form" novalidate>
+            <app-form-input ngDefaultControl [label]="'Userrole'" [id]="'userrole'"
+            [formControl]="form.controls['userrole']" [(ngModel)]="userType.userrole"
+            [placeholder]="'Identity card'" [requiredValidation]="true"
+            [customValidation]="form.controls['userrole'].errors?.minlength || form.controls['userrole'].errors?.maxlength"
+            [customValidationMessage]="'Userrole from 2 to 100 characters.'"></app-form-input>
+            <div class="modal-footer">
+              <button type="button" [disabled]="!form.valid" class="btn btn-outline-dark" (click)="save()">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
